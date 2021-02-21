@@ -1,0 +1,64 @@
+// Configurando o objeto automerge
+const Automerge = require('automerge')
+
+// Digamos que doc1 seja o estado do aplicativo no dispositivo 1.
+// Inicializamos o documento para conter inicialmente uma lista vazia de cartões.
+//let node1 = Automerge.from({ cards: [] })
+
+const initialState = {a: 1};
+
+const node1 = Automerge.change(Automerge.init(), function (doc) {
+    doc.state = initialState;
+});
+
+// Esta mudança define o estado inicial. Envie pela rede
+const data1 = JSON.stringify(Automerge.getAllChanges(node1));
+
+console.log("\n Estado atual do node1:");
+console.log(node1);
+
+
+// Salva o que seria enviado pela rede em um arquivo local, chamado teste.automerge
+var fs = require('fs');
+fs.writeFile("difNode1.automerge", data1, 'utf-8', function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+        console.log("O arquivo teste.automerge foi salvo!");
+    }
+});
+
+/*
+
+var fs = require('fs');
+fs.writeFile("node1.json", JSON.parse(data1), 'utf-8', function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+        console.log("O arquivo node1.json foi salvo!");
+    }
+});
+
+
+
+
+// Inicializa o node2 criando um novo documento Automerge e aplicando data1 a ele
+const node2 = Automerge.applyChanges(Automerge.init(), JSON.parse(data1));
+
+const node2update = Automerge.change(node2, function (doc) {
+    doc.state.b = 2;
+});
+
+// Codifique a mudança de node2 para node2update (ou seja, configuração doc.state.b)
+const data2 = JSON.stringify(Automerge.getChanges(node2, node2update))
+
+// Aplica essa mudança no nó 1
+const node1update = Automerge.applyChanges(node1, JSON.parse(data2));
+
+console.log(node1update);
+
+
+//var data = fsopen2.readFileSync('doc2.json', 'utf-8');
+
+*/
+
