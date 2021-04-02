@@ -8,6 +8,10 @@ O [Automerge](https://github.com/automerge/automerge) funciona como um
 commutative replicated data type, ou CmRDT, JSON based, ou seja, ele cria uma
 estrutura de dados JSON armazenada em disco na forma de um arquivo de operações.
 
+
+Workflow da POC:
+-----------------------
+
 ![workflow](automerge.png)
 
 
